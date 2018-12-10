@@ -91,7 +91,6 @@ def crt(a, b, c, p, q):
     
     cp = inverse_element(q, p)
     cq = inverse_element(p, q)
-    
     return ((q * cp * yp) + (p * cq * yq)) % N
 
 #encryption
