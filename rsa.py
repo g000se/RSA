@@ -1,9 +1,3 @@
-# [O] General RSA <br>
-# [O] Support 1024 bits <br>
-# [O] Prime Number Generator Implement <br>
-# [O] Square & multiply (speed up the encryption) <br>
-# [O] Chinese	Remainder Theorem (speed up the decryption) <br>
-
 from random import *
 
 #check whether n is prime
@@ -56,7 +50,7 @@ def gcd(a, b):
 
 def init(p, q):
     global N, e, d
-    p, q = int(p), int(q)
+    #p, q = int(p), int(q)
     N = p * q
     r = (p - 1) * (q - 1)
     e = coprime()
@@ -91,6 +85,7 @@ def crt(a, b, c, p, q):
     
     cp = inverse_element(q, p)
     cq = inverse_element(p, q)
+    
     return ((q * cp * yp) + (p * cq * yq)) % N
 
 #encryption
@@ -120,25 +115,39 @@ def decryption():
     print("Ciphertext is: %s" %("".join(ciphertext)))
     print("Plaintext is: %s" %(plaintext))
 
-N = r = e = d = 0
-while 1:
-    print("----------------------------------------------")
-    selection = input('i) Input Prime Number\ng) Generate Prime Number\nq) Quit\n')
-    if selection == 'i':
-        p, q = input().split()
-        init(p, q)
-    elif selection == 'g':
-        p = prime_number_generator(512)
-        q = prime_number_generator(512)
-        init(p, q)
-    else:
-        break
-    
-    print("----------------------------------------------")
-    selection = input('e) Encryption\nd) Decryption\nq) Quit\n')
-    if selection == 'e':
-        encryption()
-    elif selection == 'd':
-        decryption()
-    else:
-        break
+def start():
+    while 1:
+        print("----------------------------------------------")
+        selection = input('e) Encryption\n' + 
+                          'd) Decryption\n' + 
+                          'n) Use Another Prime Number\n')
+        if selection == 'e':
+            encryption()
+        elif selection == 'd':
+            decryption()
+        else:
+            return
+
+def main():
+    global p, q
+    while 1:
+        print("----------------------------------------------")
+        selection = input('i) Input Prime Number\n' + 
+                          'g) Generate Prime Number\n' +
+                          'q) Quit\n')
+        if selection == 'i':
+            p, q = input().split()
+            p, q = int(p), int(q)
+            init(p, q)
+        elif selection == 'g':
+            p = prime_number_generator(512)
+            q = prime_number_generator(512)
+            init(p, q)
+        else:
+            return
+
+        start()
+
+p = q = N = e = d = 0
+main()
+
